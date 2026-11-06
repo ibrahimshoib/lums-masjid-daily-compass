@@ -8,7 +8,7 @@ import heroImage from "@/assets/lums-masjid-evening.png.asset.json";
 import logoImage from "@/assets/lums-masjid-logo.png.asset.json";
 import tileImage from "@/assets/kashi-interlace.jpg.asset.json";
 
-const prayers = [
+export const prayerSchedule = [
   { name: "Fajr", start: "Being confirmed", jamaat: "Being confirmed" },
   { name: "Sunrise", start: "Being confirmed", jamaat: null },
   { name: "Zuhr", start: "Being confirmed", jamaat: "Being confirmed" },
@@ -115,7 +115,7 @@ function HomePage() {
             <span role="columnheader">START</span>
             <span role="columnheader">JAMĀ‘AT</span>
           </div>
-          {prayers.map((prayer, index) => (
+          {prayerSchedule.map((prayer, index) => (
             <div className="prayer-row" role="row" key={prayer.name}>
               <span className="prayer-name" role="cell">
                 <span className="prayer-number">0{index + 1}</span>
