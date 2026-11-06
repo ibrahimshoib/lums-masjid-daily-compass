@@ -45,10 +45,13 @@ describe("weekly event occurrences", () => {
       "listitem",
     );
     expect(within(items[0]!).getByRole("heading")).toHaveTextContent("Seerah Circle");
-    expect(within(items[0]!).getByText(/Every Monday/)).toHaveTextContent("Post Maghrib");
+    expect(within(items[0]!).getByText(/^Monday/)).toHaveTextContent("Monday · Post Maghrib");
+    expect(within(items[0]!).getByText("Imran Haider")).toBeInTheDocument();
     expect(items[0]?.querySelector("time")).toHaveAttribute("datetime", "2026-11-09");
     expect(within(items[1]!).getByRole("heading")).toHaveTextContent("Weekly Spiritual Talk");
-    expect(within(items[1]!).getByText(/Every Thursday/)).toHaveTextContent("Post Isha");
+    expect(within(items[1]!).getByText(/^Thursday/)).toHaveTextContent("Thursday · Post Isha");
+    expect(within(items[1]!).getByText("Dr. Zaid Saeed Khan")).toBeInTheDocument();
     expect(items[1]?.querySelector("time")).toHaveAttribute("datetime", "2026-11-12");
+    expect(screen.queryByText(/Next gathering/)).not.toBeInTheDocument();
   });
 });

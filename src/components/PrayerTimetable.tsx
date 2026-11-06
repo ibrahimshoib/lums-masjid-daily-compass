@@ -1,9 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { DailyPrayerSchedule, OtherTimeRow, PrayerRow } from "@/lib/prayer-times";
+import { countdownParts, getPrayerStatus } from "@/lib/prayer-status";
 
 export function PrayerTimetable({ schedule }: { schedule: DailyPrayerSchedule }) {
   const [showOtherTimes, setShowOtherTimes] = useState(false);
+  // The initial clock comes from the loader for identical server/client HTML.
+  // Once mounted, derive every tick from Date.now() so suspended tabs don't drift.
+  const [now, setNow] = useState(() => Date.parse(schedule.calculatedAt));
+  useEffect(() => {
+    const syncClock = () => setNow(Date.now());
+    syncClock();
+    const timer = window.setInterval(syncClock, 1_000);
+    window.addEventListener("focus", syncClock);
+    document.addEventListener("visibilitychange", syncClock);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener("focus", syncClock);
+      document.removeEventListener("visibilitychange", syncClock);
+    };
+  }, []);
+  const { current, next, remainingSeconds } = getPrayerStatus(schedule.timeline, now);
+  const previousNight = current && current.dateKey < schedule.dateKey ? current : null;
+  const clock = countdownParts(remainingSeconds);
   const { tahajjud, ishraq, zawal, jummah } = schedule.otherTimes;
   const rows: (PrayerRow | OtherTimeRow)[] = showOtherTimes
     ? schedule.prayers.flatMap((prayer): (PrayerRow | OtherTimeRow)[] => {
@@ -43,6 +62,37 @@ export function PrayerTimetable({ schedule }: { schedule: DailyPrayerSchedule })
         </button>
       </div>
 
+      {next ? (
+        <div className="prayer-countdown">
+          <div className="next-prayer-copy">
+            <p className="next-prayer-caption">Next jama’at starts in</p>
+            <p className="next-prayer-name" role="status" aria-live="polite" aria-atomic="true">
+              {next.name}
+              {next.dateKey > schedule.dateKey ? (
+                <span className="next-prayer-day">Tomorrow</span>
+              ) : null}
+            </p>
+            <p className="next-prayer-meta">
+              Jamaat {next.jamaatLabel} <span aria-hidden="true">·</span> Prayer starts{" "}
+              {next.startLabel}
+            </p>
+          </div>
+          <div
+            className="countdown-clock"
+            role="timer"
+            aria-live="off"
+            aria-label={`Time until ${next.name} jamaat starts`}
+          >
+            {clock.map((value, index) => (
+              <span className="countdown-part" key={index}>
+                <span className="countdown-number">{value}</span>
+                <span className="countdown-unit">{["Hours", "Minutes", "Seconds"][index]}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
       <div
         id="daily-prayer-table"
         className="prayer-table"
@@ -56,8 +106,9 @@ export function PrayerTimetable({ schedule }: { schedule: DailyPrayerSchedule })
         </div>
         {rows.map((prayer, index) => (
           <div
-            className={`prayer-row${"kind" in prayer ? ` prayer-row--${prayer.kind}` : ""}`}
+            className={`prayer-row prayer-row--${"kind" in prayer ? prayer.kind : prayer.name === "Sunrise" ? "marker" : "fard"}${current?.name === prayer.name ? " prayer-row--current" : ""}`}
             role="row"
+            aria-current={current?.name === prayer.name ? "time" : undefined}
             key={prayer.name}
           >
             <span className="prayer-name" role="cell">
@@ -67,16 +118,26 @@ export function PrayerTimetable({ schedule }: { schedule: DailyPrayerSchedule })
               <span className="prayer-label">
                 <span className="prayer-title">
                   {prayer.name}
+                  {current?.name === prayer.name ? (
+                    <span className="sr-only"> — current prayer</span>
+                  ) : null}
                   {prayer.note ? <span className="prayer-note">{prayer.note}</span> : null}
                 </span>
                 {"detail" in prayer ? <span className="prayer-detail">{prayer.detail}</span> : null}
+                {previousNight?.name === prayer.name ? (
+                  <span className="prayer-detail">From last night</span>
+                ) : null}
               </span>
             </span>
             <span className="prayer-time" role="cell">
-              {prayer.start ?? <span aria-label="Not applicable">—</span>}
+              {previousNight?.name === prayer.name
+                ? previousNight.startLabel
+                : (prayer.start ?? <span aria-label="Not applicable">—</span>)}
             </span>
             <span className="prayer-time" role="cell">
-              {prayer.jamaat ?? <span aria-label="Not applicable">—</span>}
+              {previousNight?.name === prayer.name
+                ? previousNight.jamaatLabel
+                : (prayer.jamaat ?? <span aria-label="Not applicable">—</span>)}
             </span>
           </div>
         ))}

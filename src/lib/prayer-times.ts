@@ -1,4 +1,5 @@
 import { CalculationMethod, Coordinates, Madhab, PrayerTimes, SunnahTimes } from "adhan";
+import type { PrayerPeriod } from "@/lib/prayer-status";
 
 export const PRAYER_TIME_ZONE = "Asia/Karachi";
 
@@ -142,7 +143,57 @@ export function calculateDailyPrayerSchedule(now = new Date()) {
     { name: "Isha", start: timeFormatter.format(times.isha), jamaat: jamaat(timetable.isha) },
   ];
 
+  const previousDateKey = new Date(Date.UTC(year, month - 1, day - 1)).toISOString().slice(0, 10);
+  const tomorrowDateKey = new Date(Date.UTC(year, month - 1, day + 1)).toISOString().slice(0, 10);
+  const tomorrow = new PrayerTimes(coordinates, new Date(year, month - 1, day + 1), parameters);
+  const timetableFor = (key: string) =>
+    jamaatTimetable.filter((row) => row.from <= key.slice(5)).at(-1)!;
+  const jamaatInstant = (key: string, clock: string) => new Date(`${key}T${clock}:00+05:00`);
+  const period = (
+    name: PrayerPeriod["name"],
+    key: string,
+    start: Date,
+    end: Date,
+    jamaatTime: Date,
+  ): PrayerPeriod => ({
+    name,
+    dateKey: key,
+    startAt: start.toISOString(),
+    endAt: end.toISOString(),
+    startLabel: timeFormatter.format(start),
+    jamaatAt: jamaatTime.toISOString(),
+    jamaatLabel: timeFormatter.format(jamaatTime),
+  });
+  const timeline: PrayerPeriod[] = [
+    period(
+      "Isha",
+      previousDateKey,
+      previousDay.isha,
+      times.fajr,
+      jamaatInstant(previousDateKey, timetableFor(previousDateKey).isha),
+    ),
+    period("Fajr", dateKey, times.fajr, times.sunrise, jamaatInstant(dateKey, timetable.fajr)),
+    period("Zuhr", dateKey, times.dhuhr, times.asr, jamaatInstant(dateKey, "13:30")),
+    period("Asr", dateKey, times.asr, times.maghrib, jamaatInstant(dateKey, timetable.asr)),
+    period(
+      "Maghrib",
+      dateKey,
+      times.maghrib,
+      times.isha,
+      new Date(times.sunset.getTime() + 5 * 60_000),
+    ),
+    period("Isha", dateKey, times.isha, tomorrow.fajr, jamaatInstant(dateKey, timetable.isha)),
+    period(
+      "Fajr",
+      tomorrowDateKey,
+      tomorrow.fajr,
+      tomorrow.sunrise,
+      jamaatInstant(tomorrowDateKey, timetableFor(tomorrowDateKey).fajr),
+    ),
+  ];
+
   return {
+    calculatedAt: now.toISOString(),
     dateKey,
     displayDate: new Intl.DateTimeFormat("en-GB", {
       timeZone: PRAYER_TIME_ZONE,
@@ -154,8 +205,8 @@ export function calculateDailyPrayerSchedule(now = new Date()) {
     // Pakistan uses UTC+05:00. Expire at the next Lahore midnight, including
     // month/year boundaries, so a page left open never keeps yesterday's times.
     validUntil: new Date(Date.parse(`${dateKey}T00:00:00+05:00`) + 86_400_000).toISOString(),
-    jumuah: jamaat("13:30"),
     prayers,
     otherTimes,
+    timeline,
   };
 }

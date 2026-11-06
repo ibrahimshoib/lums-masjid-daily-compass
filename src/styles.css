@@ -133,7 +133,8 @@
 .tile-rule, .newsletter-tile-detail { background-repeat: repeat-x; background-size: auto 100%; }
 .tile-rule { height: 21px; opacity: 0.86; }
 .section-shell { width: min(100% - 64px, 1060px); margin-inline: auto; }
-.prayer-section { padding-block: 90px 84px; }
+.prayer-section { --prayer-fard: #e9e3d5; --prayer-nafl: #a6b7b0; --prayer-marker: #a9b2bd; --prayer-support: #82909e; padding-block: 90px 84px; }
+.prayer-section .section-intro { color: var(--prayer-support); }
 .section-heading-row { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 35px; }
 .eyebrow { display: flex; align-items: center; gap: 8px; margin: 0 0 15px; color: var(--primary); font-size: 9px; font-weight: 600; letter-spacing: 0.16em; }
 .eyebrow svg { stroke-width: 1.5; }
@@ -145,8 +146,6 @@
   line-height: 1.05;
 }
 .section-intro { margin: 10px 0 0; color: var(--muted-foreground); font-size: 12px; line-height: 1.8; }
-.update-status { display: inline-flex; align-items: center; gap: 8px; padding-bottom: 3px; color: var(--muted-foreground); font-size: 10px; white-space: nowrap; }
-.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 .other-times-toggle { display: inline-flex; align-items: center; justify-content: space-between; gap: 14px; flex-shrink: 0; min-height: 42px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 999px; background: var(--card); color: var(--muted-foreground); font: inherit; font-size: 11px; cursor: pointer; transition: border-color 180ms ease, background 180ms ease, color 180ms ease; }
 .other-times-toggle:hover { border-color: var(--primary); color: var(--foreground); }
 .other-times-toggle:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; }
@@ -155,20 +154,33 @@
 .other-times-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--muted-foreground); transition: transform 180ms ease, background 180ms ease; }
 .other-times-toggle[aria-pressed="true"] .other-times-track { background: var(--primary); }
 .other-times-toggle[aria-pressed="true"] .other-times-thumb { transform: translateX(12px); background: var(--primary-foreground); }
+.prayer-countdown { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin: -4px 0 25px; padding: 21px 25px; border: 1px solid color-mix(in oklab, var(--primary) 19%, var(--border)); border-radius: 4px; background: linear-gradient(110deg, color-mix(in oklab, var(--primary) 7%, var(--background)), var(--background) 85%); }
+.next-prayer-caption { margin: 0 0 7px; color: var(--prayer-support); font-size: 9px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; }
+.next-prayer-name { display: flex; align-items: center; gap: 12px; margin: 0; color: var(--prayer-fard); font-family: var(--font-serif); font-size: 29px; line-height: 1.1; }
+.next-prayer-day { color: var(--prayer-support); font-family: var(--font-sans); font-size: 10px; }
+.next-prayer-meta { margin: 8px 0 0; color: var(--prayer-support); font-size: 10px; line-height: 1.7; }
+.next-prayer-meta > span { margin-inline: 5px; }
+.countdown-clock { display: grid; grid-template-columns: repeat(3, minmax(50px, 1fr)); gap: 24px; flex-shrink: 0; text-align: center; }
+.countdown-part { position: relative; display: flex; flex-direction: column; gap: 8px; min-width: 50px; }
+.countdown-part + .countdown-part::before { content: ":"; position: absolute; left: -15px; top: -1px; color: color-mix(in oklab, var(--primary) 65%, var(--muted-foreground)); font-size: 29px; font-weight: 300; }
+.countdown-number { color: var(--prayer-fard); font-size: 32px; font-weight: 400; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+.countdown-unit { color: var(--prayer-support); font-size: 8px; letter-spacing: 0.09em; text-transform: uppercase; }
 .prayer-table { border-top: 1px solid var(--border); }
-.prayer-row { display: grid; grid-template-columns: minmax(190px, 1.35fr) 1fr 1fr; min-height: 58px; align-items: center; border-bottom: 1px solid var(--border); }
+.prayer-row { --prayer-text: var(--prayer-fard); display: grid; grid-template-columns: minmax(190px, 1.35fr) 1fr 1fr; min-height: 58px; align-items: center; border-bottom: 1px solid var(--border); }
 .prayer-row > :nth-child(2), .prayer-row > :nth-child(3) { padding-left: 17px; }
-.prayer-table-heading { min-height: 39px; color: var(--muted-foreground); font-size: 9px; font-weight: 500; letter-spacing: 0.13em; }
-.prayer-name { display: flex; align-items: center; gap: 14px; font-family: var(--font-serif); font-size: 21px; }
+.prayer-table-heading { min-height: 39px; color: var(--prayer-support); font-size: 9px; font-weight: 500; letter-spacing: 0.13em; }
+.prayer-name { display: flex; align-items: center; gap: 14px; color: var(--prayer-text); font-family: var(--font-serif); font-size: 21px; }
 .prayer-label { display: flex; min-width: 0; flex-direction: column; gap: 4px; padding-block: 12px; }
 .prayer-title { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-.prayer-detail { color: var(--muted-foreground); font-family: var(--font-sans); font-size: 9px; line-height: 1.5; }
-.prayer-row--nafl .prayer-name, .prayer-row--nafl .prayer-time { color: color-mix(in oklab, var(--foreground) 65%, var(--muted-foreground)); }
-.prayer-row--marker .prayer-name, .prayer-row--marker .prayer-time { color: var(--muted-foreground); }
-.prayer-number { color: var(--muted-foreground); font-family: var(--font-sans); font-size: 9px; }
-.prayer-note { border: 1px solid var(--border); padding: 3px 7px; color: var(--accent); font-family: var(--font-sans); font-size: 9px; line-height: 1; }
-.prayer-time { color: var(--foreground); font-size: 12px; }
-.schedule-note { margin: 15px 0 0; color: var(--muted-foreground); font-size: 10px; line-height: 1.8; }
+.prayer-detail { color: var(--prayer-support); font-family: var(--font-sans); font-size: 9px; line-height: 1.5; }
+.prayer-row--nafl { --prayer-text: var(--prayer-nafl); }
+.prayer-row--marker { --prayer-text: var(--prayer-marker); }
+.prayer-row--current { position: relative; background: linear-gradient(90deg, color-mix(in oklab, var(--primary) 8%, transparent), transparent); }
+.prayer-row--current::before { content: ""; position: absolute; left: -11px; top: 0; bottom: 0; width: 2px; background: var(--primary); }
+.prayer-number { color: var(--prayer-support); font-family: var(--font-sans); font-size: 9px; }
+.prayer-note { border: 1px solid var(--border); padding: 3px 7px; color: var(--prayer-support); font-family: var(--font-sans); font-size: 9px; line-height: 1; }
+.prayer-time { color: var(--prayer-text); font-size: 12px; }
+.schedule-note { margin: 15px 0 0; color: var(--prayer-support); font-size: 10px; line-height: 1.8; }
 
 .community-section { border-top: 1px solid var(--border); padding-block: 81px 94px; }
 .community-grid { display: grid; grid-template-columns: 1fr 0.9fr; gap: clamp(38px, 8vw, 108px); }
@@ -180,11 +192,7 @@
 .event-month { font-size: 9px; letter-spacing: 0.13em; text-transform: uppercase; }
 .event-copy h3 { margin: 0; font-family: var(--font-serif); font-size: 25px; font-weight: 400; line-height: 1.2; }
 .event-timing { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; color: var(--primary); font-size: 11px; line-height: 1.6; }
-.event-next { margin: 5px 0 0; color: var(--muted-foreground); font-size: 10px; line-height: 1.7; }
-.empty-update { margin-top: 32px; border-top: 1px solid var(--border); padding-top: 19px; }
-.empty-line { display: block; width: 28px; height: 1px; background: var(--accent); }
-.empty-update p { margin: 14px 0 6px; font-family: var(--font-serif); font-size: 21px; }
-.empty-detail { color: var(--muted-foreground); font-size: 11px; }
+.event-speaker { margin: 5px 0 0; color: var(--muted-foreground); font-size: 11px; line-height: 1.7; }
 .notice-mark { color: var(--accent); font-size: 13px; }
 .notice-item { margin-top: 32px; border-top: 1px solid var(--border); padding-top: 18px; }
 .notice-date { margin: 0 0 10px; color: var(--primary); font-size: 9px; letter-spacing: 0.13em; }
@@ -242,6 +250,13 @@
   .prayer-number { font-size: 8px; }
   .prayer-time { font-size: 10px; }
   .prayer-note { padding: 3px 4px; font-size: 8px; }
+  .prayer-countdown { align-items: flex-start; flex-direction: column; gap: 20px; padding: 20px; margin-top: 0; }
+  .next-prayer-name { font-size: 27px; }
+  .countdown-clock { width: 100%; gap: 20px; }
+  .countdown-part { min-width: 0; }
+  .countdown-part + .countdown-part::before { left: -12px; }
+  .countdown-number { font-size: 30px; }
+  .prayer-row--current::before { left: -8px; }
   .community-section { padding-block: 61px 70px; }
   .community-grid { grid-template-columns: 1fr; gap: 54px; }
   .community-block h2 { font-size: 35px; }

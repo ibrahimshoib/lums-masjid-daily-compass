@@ -51,7 +51,7 @@ describe("LUMS Masjid jamaat timetable", () => {
       expect(row("Asr").jamaat).toBe(asr);
       expect(row("Isha").jamaat).toBe(isha);
       expect(row("Zuhr").jamaat).toBe("1:30 PM");
-      expect(schedule.jumuah).toBe("1:30 PM");
+      expect(schedule.otherTimes.jummah.jamaat).toBe("1:30 PM");
       expect(row("Sunrise").jamaat).toBeNull();
     }
   });
@@ -117,7 +117,10 @@ describe("daily prayer calculations", () => {
       vi.stubEnv("TZ", zone);
       // Lahore is already on the 16th while UTC is still on the 15th.
       const schedule = calculateDailyPrayerSchedule(new Date("2026-11-15T19:00:00Z"));
-      expect(schedule).toEqual(dailySchedule("2026-11-16"));
+      const { calculatedAt, ...actual } = schedule;
+      const { calculatedAt: expectedClock, ...expected } = dailySchedule("2026-11-16");
+      expect(actual).toEqual(expected);
+      expect(calculatedAt).toBe("2026-11-15T19:00:00.000Z");
       expect(schedule.dateKey).toBe("2026-11-16");
       expect(schedule.prayers[0]?.jamaat).toBe("6:00 AM");
       expect(schedule.validUntil).toBe("2026-11-16T19:00:00.000Z");

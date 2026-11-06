@@ -11,10 +11,10 @@ export function UpcomingEvents({ events }: { events: UpcomingEvent[] }) {
           </time>
           <div className="event-copy">
             <h3>{event.title}</h3>
+            <p className="event-speaker">{event.speaker}</p>
             <p className="event-timing">
               {event.recurrence} <span aria-hidden="true">·</span> {event.timing}
             </p>
-            <p className="event-next">Next gathering · {event.displayDate}</p>
           </div>
         </li>
       ))}

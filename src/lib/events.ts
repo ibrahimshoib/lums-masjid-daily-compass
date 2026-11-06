@@ -3,15 +3,17 @@ const recurringEvents = [
     id: "weekly-spiritual-talk",
     title: "Weekly Spiritual Talk",
     weekday: 4,
-    recurrence: "Every Thursday",
+    recurrence: "Thursday",
     timing: "Post Isha",
+    speaker: "Dr. Zaid Saeed Khan",
   },
   {
     id: "seerah-circle",
     title: "Seerah Circle",
     weekday: 1,
-    recurrence: "Every Monday",
+    recurrence: "Monday",
     timing: "Post Maghrib",
+    speaker: "Imran Haider",
   },
 ] as const;
 
@@ -32,6 +34,7 @@ export function calculateUpcomingEvents(dateKey: string) {
         title: event.title,
         recurrence: event.recurrence,
         timing: event.timing,
+        speaker: event.speaker,
         dateKey: date.toISOString().slice(0, 10),
         day: new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", day: "2-digit" }).format(date),
         month: new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", month: "short" }).format(date),

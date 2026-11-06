@@ -70,6 +70,14 @@ after sunrise), Zawal (solar noon, without Dhuhr's safety adjustment), and Frida
 Zawal is labeled as a time to avoid prayer. Tahajjud remains permissible after
 Isha; the displayed last third is its preferred period, not its earliest time.
 
+The active fard prayer is highlighted by its start-time window; Fajr stops at
+sunrise, and no row is active between sunrise and Zuhr. Isha continues across
+midnight until Fajr, with a "From last night" label before dawn. The countdown
+targets the next jamaat, independently of the current prayer's start-time
+highlight. It uses absolute timestamps and tomorrow's calculated Fajr and jamaat schedule,
+resyncs on tab focus/visibility changes, and keeps second-by-second updates out
+of screen-reader live announcements.
+
 ## Upcoming events
 
 Weekly Spiritual Talk meets every Thursday post Isha; Seerah Circle meets every
