@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Application architecture
+
+- Handle public newsletter sign-ups with a validated TanStack server function and a service-role insert into a private, RLS-enabled table, so visitor emails are never exposed to browser reads.
