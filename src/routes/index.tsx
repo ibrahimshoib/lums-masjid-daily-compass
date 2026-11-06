@@ -8,9 +8,9 @@ import { UpcomingEvents } from "@/components/UpcomingEvents";
 import { calculateUpcomingEvents } from "@/lib/events";
 import { subscribeToNewsletter } from "@/lib/newsletter.functions";
 import { getDailyPrayerSchedule } from "@/lib/prayer-times.functions";
-import heroImage from "@/assets/lums-masjid-evening.png.asset.json";
-import logoImage from "@/assets/lums-masjid-logo.png.asset.json";
-import tileImage from "@/assets/kashi-interlace.jpg.asset.json";
+import heroImage from "@/assets/lums-masjid-evening.png";
+import logoImage from "@/assets/lums-masjid-logo.png";
+import tileImage from "@/assets/kashi-interlace.jpg";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
@@ -80,7 +80,7 @@ function HomePage() {
     <main className="min-h-screen bg-background text-foreground">
       <header className="site-header mx-auto flex items-center justify-between px-5 md:px-10">
         <a className="brand-lockup" href="#home" aria-label="LUMS Masjid home">
-          <img className="brand-logo" src={logoImage.url} alt="" />
+          <img className="brand-logo" src={logoImage} alt="" />
           <span className="brand-name">LUMS MASJID</span>
         </a>
         <nav className="site-nav" aria-label="Main navigation">
@@ -93,7 +93,7 @@ function HomePage() {
       </header>
 
       <section id="home" className="mosque-hero" aria-labelledby="page-title">
-        <img className="mosque-hero-image" src={heroImage.url} alt="The LUMS Masjid glowing beneath the night sky" />
+        <img className="mosque-hero-image" src={heroImage} alt="The LUMS Masjid glowing beneath the night sky" />
         <div className="mosque-hero-shade" />
         <div className="mosque-hero-content px-6 md:px-12">
           <div className="hero-caption">
@@ -114,7 +114,7 @@ function HomePage() {
         <div className="hero-index" aria-hidden="true">01 — 04</div>
       </section>
 
-      <div className="tile-rule" style={{ backgroundImage: `url(${tileImage.url})` }} aria-hidden="true" />
+      <div className="tile-rule" style={{ backgroundImage: `url(${tileImage})` }} aria-hidden="true" />
 
       <PrayerTimetable schedule={schedule} />
 
@@ -132,10 +132,9 @@ function HomePage() {
             <h2>Announcements</h2>
             <p className="section-intro">Important notices and updates.</p>
             <article className="notice-item">
-              <p className="notice-date">MASJID UPDATE</p>
-              <h3>More information, soon.</h3>
-              <p>Prayer timings, upcoming events, and community announcements will appear here as they are confirmed.</p>
-              <span className="notice-link">We look forward to welcoming you.</span>
+              <p className="notice-date">A GENTLE REMINDER</p>
+              <h3>Smile when you see the people of the mosque.</h3>
+              <p>A warm smile helps everyone feel welcome at the masjid.</p>
             </article>
           </div>
         </div>
@@ -171,12 +170,12 @@ function HomePage() {
             ) : null}
           </form>
         </div>
-        <div className="newsletter-tile-detail" style={{ backgroundImage: `url(${tileImage.url})` }} aria-hidden="true" />
+        <div className="newsletter-tile-detail" style={{ backgroundImage: `url(${tileImage})` }} aria-hidden="true" />
       </section>
 
       <footer className="site-footer">
         <a className="footer-lockup" href="#home">
-          <img src={logoImage.url} alt="" />
+          <img src={logoImage} alt="" />
           <span>LUMS MASJID</span>
         </a>
         <p>A place to pause, and return.</p>

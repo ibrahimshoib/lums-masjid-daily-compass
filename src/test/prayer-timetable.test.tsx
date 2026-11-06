@@ -81,7 +81,7 @@ describe("live prayer timetable", () => {
 });
 
 describe("Other times toggle", () => {
-  it("reveals all four extra rows in order and restores the compact timetable", () => {
+  it("reveals the three extra rows without Zawal and restores the compact timetable", () => {
     const schedule = calculateDailyPrayerSchedule(new Date("2026-11-07T07:00:00Z"));
     render(<PrayerTimetable schedule={schedule} />);
     const toggle = screen.getByRole("button", { name: "Other times" });
@@ -96,13 +96,12 @@ describe("Other times toggle", () => {
     fireEvent.click(toggle);
     expect(toggle).toHaveAttribute("aria-pressed", "true");
     const rows = within(table).getAllByRole("row").slice(1);
-    expect(rows).toHaveLength(10);
+    expect(rows).toHaveLength(9);
     const names = [
       "Tahajjud",
       "Fajr",
       "Sunrise",
       "Ishraq",
-      "Zawal",
       "Zuhr",
       "Jummah",
       "Asr",
@@ -115,9 +114,9 @@ describe("Other times toggle", () => {
     expect(rows[0]).toHaveClass("prayer-row--nafl");
     expect(rows[3]).toHaveClass("prayer-row--nafl");
     expect(rows[1]).not.toHaveClass("prayer-row--nafl");
-    expect(rows[6]).toHaveClass("prayer-row--fard");
-    expect(within(rows[6]!).getByText("1:30 PM")).toBeInTheDocument();
-    expect(screen.getByText("Solar noon · no prayer")).toBeInTheDocument();
+    expect(rows[5]).toHaveClass("prayer-row--fard");
+    expect(within(rows[5]!).getByText("1:30 PM")).toBeInTheDocument();
+    expect(screen.queryByText(/Zawal|Solar noon/)).not.toBeInTheDocument();
 
     fireEvent.click(toggle);
     expect(toggle).toHaveAttribute("aria-pressed", "false");

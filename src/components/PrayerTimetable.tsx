@@ -23,7 +23,7 @@ export function PrayerTimetable({ schedule }: { schedule: DailyPrayerSchedule })
   const { current, next, remainingSeconds } = getPrayerStatus(schedule.timeline, now);
   const previousNight = current && current.dateKey < schedule.dateKey ? current : null;
   const clock = countdownParts(remainingSeconds);
-  const { tahajjud, ishraq, zawal, jummah } = schedule.otherTimes;
+  const { tahajjud, ishraq, jummah } = schedule.otherTimes;
   const rows: (PrayerRow | OtherTimeRow)[] = showOtherTimes
     ? schedule.prayers.flatMap((prayer): (PrayerRow | OtherTimeRow)[] => {
         switch (prayer.name) {
@@ -32,7 +32,7 @@ export function PrayerTimetable({ schedule }: { schedule: DailyPrayerSchedule })
           case "Sunrise":
             return [prayer, ishraq];
           case "Zuhr":
-            return [zawal, prayer, jummah];
+            return [prayer, jummah];
           default:
             return [prayer];
         }
@@ -149,8 +149,7 @@ export function PrayerTimetable({ schedule }: { schedule: DailyPrayerSchedule })
       {showOtherTimes ? (
         <p className="schedule-note">
           Tahajjud shows the preferred last third before today’s Fajr; it may also be prayed after
-          Isha. Ishraq is estimated at 20 minutes after sunrise. Zawal marks solar noon, when prayer
-          should be avoided.
+          Isha. Ishraq is estimated at 20 minutes after sunrise.
         </p>
       ) : null}
     </section>
