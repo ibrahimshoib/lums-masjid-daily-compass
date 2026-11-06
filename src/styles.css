@@ -147,19 +147,40 @@
 .section-intro { margin: 10px 0 0; color: var(--muted-foreground); font-size: 12px; line-height: 1.8; }
 .update-status { display: inline-flex; align-items: center; gap: 8px; padding-bottom: 3px; color: var(--muted-foreground); font-size: 10px; white-space: nowrap; }
 .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.other-times-toggle { display: inline-flex; align-items: center; justify-content: space-between; gap: 14px; flex-shrink: 0; min-height: 42px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 999px; background: var(--card); color: var(--muted-foreground); font: inherit; font-size: 11px; cursor: pointer; transition: border-color 180ms ease, background 180ms ease, color 180ms ease; }
+.other-times-toggle:hover { border-color: var(--primary); color: var(--foreground); }
+.other-times-toggle:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; }
+.other-times-toggle[aria-pressed="true"] { border-color: color-mix(in oklab, var(--primary) 50%, transparent); background: color-mix(in oklab, var(--primary) 8%, var(--card)); color: var(--foreground); }
+.other-times-track { display: flex; align-items: center; width: 30px; height: 18px; padding: 3px; border-radius: 999px; background: var(--border); transition: background 180ms ease; }
+.other-times-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--muted-foreground); transition: transform 180ms ease, background 180ms ease; }
+.other-times-toggle[aria-pressed="true"] .other-times-track { background: var(--primary); }
+.other-times-toggle[aria-pressed="true"] .other-times-thumb { transform: translateX(12px); background: var(--primary-foreground); }
 .prayer-table { border-top: 1px solid var(--border); }
 .prayer-row { display: grid; grid-template-columns: minmax(190px, 1.35fr) 1fr 1fr; min-height: 58px; align-items: center; border-bottom: 1px solid var(--border); }
 .prayer-row > :nth-child(2), .prayer-row > :nth-child(3) { padding-left: 17px; }
 .prayer-table-heading { min-height: 39px; color: var(--muted-foreground); font-size: 9px; font-weight: 500; letter-spacing: 0.13em; }
 .prayer-name { display: flex; align-items: center; gap: 14px; font-family: var(--font-serif); font-size: 21px; }
+.prayer-label { display: flex; min-width: 0; flex-direction: column; gap: 4px; padding-block: 12px; }
+.prayer-title { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.prayer-detail { color: var(--muted-foreground); font-family: var(--font-sans); font-size: 9px; line-height: 1.5; }
+.prayer-row--nafl .prayer-name, .prayer-row--nafl .prayer-time { color: color-mix(in oklab, var(--foreground) 65%, var(--muted-foreground)); }
+.prayer-row--marker .prayer-name, .prayer-row--marker .prayer-time { color: var(--muted-foreground); }
 .prayer-number { color: var(--muted-foreground); font-family: var(--font-sans); font-size: 9px; }
 .prayer-note { border: 1px solid var(--border); padding: 3px 7px; color: var(--accent); font-family: var(--font-sans); font-size: 9px; line-height: 1; }
 .prayer-time { color: var(--foreground); font-size: 12px; }
-.schedule-note { margin: 15px 0 0; color: var(--muted-foreground); font-size: 10px; }
+.schedule-note { margin: 15px 0 0; color: var(--muted-foreground); font-size: 10px; line-height: 1.8; }
 
 .community-section { border-top: 1px solid var(--border); padding-block: 81px 94px; }
 .community-grid { display: grid; grid-template-columns: 1fr 0.9fr; gap: clamp(38px, 8vw, 108px); }
 .community-block h2 { font-size: 39px; }
+.event-list { margin: 32px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--border); }
+.event-item { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 20px; align-items: start; padding-block: 23px; border-bottom: 1px solid var(--border); }
+.event-date { display: flex; flex-direction: column; align-items: center; gap: 3px; padding-top: 2px; color: var(--accent); font-variant-numeric: tabular-nums; }
+.event-day { font-family: var(--font-serif); font-size: 32px; line-height: 1; }
+.event-month { font-size: 9px; letter-spacing: 0.13em; text-transform: uppercase; }
+.event-copy h3 { margin: 0; font-family: var(--font-serif); font-size: 25px; font-weight: 400; line-height: 1.2; }
+.event-timing { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; color: var(--primary); font-size: 11px; line-height: 1.6; }
+.event-next { margin: 5px 0 0; color: var(--muted-foreground); font-size: 10px; line-height: 1.7; }
 .empty-update { margin-top: 32px; border-top: 1px solid var(--border); padding-top: 19px; }
 .empty-line { display: block; width: 28px; height: 1px; background: var(--accent); }
 .empty-update p { margin: 14px 0 6px; font-family: var(--font-serif); font-size: 21px; }

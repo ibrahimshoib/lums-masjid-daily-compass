@@ -1,23 +1,22 @@
-import { useState, type FormEvent } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDown, ArrowUpRight, CalendarDays, Check, Clock3, Mail, MapPin } from "lucide-react";
+import { useEffect, useState, type FormEvent } from "react";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { ArrowDown, ArrowUpRight, CalendarDays, Check, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PrayerTimetable } from "@/components/PrayerTimetable";
+import { UpcomingEvents } from "@/components/UpcomingEvents";
+import { calculateUpcomingEvents } from "@/lib/events";
 import { subscribeToNewsletter } from "@/lib/newsletter.functions";
+import { getDailyPrayerSchedule } from "@/lib/prayer-times.functions";
 import heroImage from "@/assets/lums-masjid-evening.png.asset.json";
 import logoImage from "@/assets/lums-masjid-logo.png.asset.json";
 import tileImage from "@/assets/kashi-interlace.jpg.asset.json";
 
-export const prayerSchedule = [
-  { name: "Fajr", start: "Being confirmed", jamaat: "Being confirmed" },
-  { name: "Sunrise", start: "Being confirmed", jamaat: null },
-  { name: "Zuhr", start: "Being confirmed", jamaat: "Being confirmed" },
-  { name: "Asr", note: "Hanafi", start: "Being confirmed", jamaat: "Being confirmed" },
-  { name: "Maghrib", start: "Being confirmed", jamaat: "Being confirmed" },
-  { name: "Isha", start: "Being confirmed", jamaat: "Being confirmed" },
-];
-
 export const Route = createFileRoute("/")({
+  loader: async () => {
+    const schedule = await getDailyPrayerSchedule();
+    return { schedule, upcomingEvents: calculateUpcomingEvents(schedule.dateKey) };
+  },
   head: () => ({
     meta: [
       { title: "LUMS Masjid | Prayer, Community & Campus Life" },
@@ -39,9 +38,27 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
+  const { schedule, upcomingEvents } = Route.useLoaderData();
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [signupMessage, setSignupMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const expiresAt = Date.parse(schedule.validUntil);
+    const refreshIfExpired = () => {
+      if (Date.now() >= expiresAt) void router.invalidate();
+    };
+    const timer = window.setTimeout(refreshIfExpired, Math.max(0, expiresAt - Date.now()) + 100);
+    // Sleeping devices may suspend timers. Recheck when the visitor returns.
+    window.addEventListener("focus", refreshIfExpired);
+    document.addEventListener("visibilitychange", refreshIfExpired);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("focus", refreshIfExpired);
+      document.removeEventListener("visibilitychange", refreshIfExpired);
+    };
+  }, [router, schedule.validUntil]);
 
   async function handleSubscribe(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -99,36 +116,7 @@ function HomePage() {
 
       <div className="tile-rule" style={{ backgroundImage: `url(${tileImage.url})` }} aria-hidden="true" />
 
-      <section id="prayer-times" className="section-shell prayer-section">
-        <div className="section-heading-row">
-          <div>
-            <p className="eyebrow"><Clock3 aria-hidden="true" size={14} /> DAILY RHYTHM</p>
-            <h2>Prayer times</h2>
-            <p className="section-intro">Daily timings will be updated here by the masjid.</p>
-          </div>
-          <span className="update-status"><span className="status-dot" /> Times being confirmed</span>
-        </div>
-
-        <div className="prayer-table" role="table" aria-label="Daily prayer start and congregation times">
-          <div className="prayer-row prayer-table-heading" role="row">
-            <span role="columnheader">PRAYER</span>
-            <span role="columnheader">START</span>
-            <span role="columnheader">JAMĀ‘AT</span>
-          </div>
-          {prayerSchedule.map((prayer, index) => (
-            <div className="prayer-row" role="row" key={prayer.name}>
-              <span className="prayer-name" role="cell">
-                <span className="prayer-number">0{index + 1}</span>
-                {prayer.name}
-                {prayer.note ? <span className="prayer-note">{prayer.note}</span> : null}
-              </span>
-              <span className="prayer-time" role="cell">{prayer.start}</span>
-              <span className="prayer-time" role="cell">{prayer.jamaat ?? <span aria-label="Not applicable">—</span>}</span>
-            </div>
-          ))}
-        </div>
-        <p className="schedule-note">Exact timings will be shared once confirmed by the masjid.</p>
-      </section>
+      <PrayerTimetable schedule={schedule} />
 
       <section id="community" className="section-shell community-section">
         <div className="community-grid">
@@ -136,11 +124,7 @@ function HomePage() {
             <p className="eyebrow"><CalendarDays aria-hidden="true" size={14} /> GATHER TOGETHER</p>
             <h2>Upcoming events</h2>
             <p className="section-intro">Lectures, gatherings, and moments to share.</p>
-            <div className="empty-update">
-              <span className="empty-line" />
-              <p>There are no upcoming events to share just yet.</p>
-              <span className="empty-detail">Check back here for the next gathering.</span>
-            </div>
+            <UpcomingEvents events={upcomingEvents} />
           </div>
 
           <div className="community-block notices-block">
