@@ -4,28 +4,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -45,100 +28,211 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-tile-blue: var(--tile-blue);
+  --color-lantern: var(--lantern);
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
-}
-
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  color-scheme: dark;
+  --radius: 0.25rem;
+  --background: oklch(0.15 0.035 256);
+  --foreground: oklch(0.92 0.023 83);
+  --card: oklch(0.18 0.036 256);
+  --card-foreground: oklch(0.92 0.023 83);
+  --popover: oklch(0.18 0.036 256);
+  --popover-foreground: oklch(0.92 0.023 83);
+  --primary: oklch(0.76 0.109 188);
+  --primary-foreground: oklch(0.17 0.04 256);
+  --secondary: oklch(0.22 0.041 256);
+  --secondary-foreground: oklch(0.92 0.023 83);
+  --muted: oklch(0.22 0.041 256);
+  --muted-foreground: oklch(0.68 0.023 252);
+  --accent: oklch(0.78 0.076 83);
+  --accent-foreground: oklch(0.17 0.04 256);
+  --destructive: oklch(0.65 0.188 27);
+  --destructive-foreground: oklch(0.97 0.01 85);
+  --border: oklch(0.83 0.028 83 / 15%);
+  --input: oklch(0.83 0.028 83 / 18%);
+  --ring: oklch(0.76 0.109 188);
+  --tile-blue: oklch(0.44 0.132 248);
+  --lantern: oklch(0.78 0.076 83);
 }
 
 @layer base {
-  * {
-    border-color: var(--color-border);
-  }
-
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
   body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
+  ::selection { background: var(--primary); color: var(--primary-foreground); }
+  a { color: inherit; text-decoration: none; }
+}
+
+.site-header {
+  width: min(100%, 1540px);
+  height: 76px;
+  margin-inline: auto;
+}
+.brand-lockup, .footer-lockup { display: inline-flex; align-items: center; gap: 13px; }
+.brand-logo { width: 30px; height: 38px; object-fit: contain; }
+.brand-name, .footer-lockup span {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+}
+.site-nav { display: flex; align-items: center; gap: clamp(20px, 4vw, 52px); color: var(--muted-foreground); font-size: 12px; }
+.site-nav a { transition: color 180ms ease; }
+.site-nav a:hover { color: var(--foreground); }
+.site-nav .nav-newsletter { display: inline-flex; align-items: center; gap: 7px; color: var(--foreground); }
+
+.mosque-hero {
+  position: relative;
+  display: flex;
+  min-height: 590px;
+  height: min(74svh, 810px);
+  align-items: center;
+  overflow: hidden;
+  background: var(--card);
+  isolation: isolate;
+}
+.mosque-hero-image, .mosque-hero-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
+.mosque-hero-image { z-index: -2; object-fit: cover; object-position: center 56%; }
+.mosque-hero-shade {
+  z-index: -1;
+  background:
+    linear-gradient(90deg, oklch(0.12 0.03 256 / 78%) 0%, oklch(0.12 0.03 256 / 47%) 45%, oklch(0.12 0.03 256 / 7%) 100%),
+    linear-gradient(0deg, oklch(0.12 0.03 256 / 36%) 0%, transparent 32%);
+}
+.mosque-hero-content { width: min(100%, 1360px); margin: 16px auto 0; }
+.hero-caption, .hero-location, .hero-scroll { display: flex; align-items: center; }
+.hero-caption { gap: 11px; color: oklch(0.93 0.03 83); font-size: 10px; font-weight: 500; letter-spacing: 0.17em; }
+.hero-caption-rule { width: 29px; height: 1px; background: var(--accent); }
+.mosque-hero h1 {
+  margin: 25px 0 11px;
+  color: oklch(0.96 0.025 83);
+  font-family: var(--font-serif);
+  font-size: clamp(64px, 8.2vw, 112px);
+  font-weight: 400;
+  line-height: 0.82;
+}
+.mosque-hero-content > p { margin: 23px 0 31px; color: oklch(0.88 0.015 83); font-size: 14px; }
+.hero-scroll { width: fit-content; gap: 13px; border-bottom: 1px solid oklch(0.91 0.024 83 / 49%); padding-bottom: 9px; color: oklch(0.95 0.018 83); font-size: 12px; }
+.hero-scroll svg { color: var(--accent); }
+.hero-location { position: absolute; right: 40px; bottom: 30px; gap: 8px; color: oklch(0.94 0.022 83); font-size: 9px; letter-spacing: 0.13em; }
+.hero-location svg { color: var(--accent); }
+.hero-index { position: absolute; bottom: 30px; left: 40px; color: oklch(0.94 0.022 83 / 78%); font-size: 9px; letter-spacing: 0.15em; }
+
+.tile-rule, .newsletter-tile-detail { background-repeat: repeat-x; background-size: auto 100%; }
+.tile-rule { height: 21px; opacity: 0.86; }
+.section-shell { width: min(100% - 64px, 1060px); margin-inline: auto; }
+.prayer-section { padding-block: 90px 84px; }
+.section-heading-row { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 35px; }
+.eyebrow { display: flex; align-items: center; gap: 8px; margin: 0 0 15px; color: var(--primary); font-size: 9px; font-weight: 600; letter-spacing: 0.16em; }
+.eyebrow svg { stroke-width: 1.5; }
+.section-shell h2, .newsletter-copy h2 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 45px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+.section-intro { margin: 10px 0 0; color: var(--muted-foreground); font-size: 12px; line-height: 1.8; }
+.update-status { display: inline-flex; align-items: center; gap: 8px; padding-bottom: 3px; color: var(--muted-foreground); font-size: 10px; white-space: nowrap; }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.prayer-table { border-top: 1px solid var(--border); }
+.prayer-row { display: grid; grid-template-columns: minmax(190px, 1.35fr) 1fr 1fr; min-height: 58px; align-items: center; border-bottom: 1px solid var(--border); }
+.prayer-row > :nth-child(2), .prayer-row > :nth-child(3) { padding-left: 17px; }
+.prayer-table-heading { min-height: 39px; color: var(--muted-foreground); font-size: 9px; font-weight: 500; letter-spacing: 0.13em; }
+.prayer-name { display: flex; align-items: center; gap: 14px; font-family: var(--font-serif); font-size: 21px; }
+.prayer-number { color: var(--muted-foreground); font-family: var(--font-sans); font-size: 9px; }
+.prayer-note { border: 1px solid var(--border); padding: 3px 7px; color: var(--accent); font-family: var(--font-sans); font-size: 9px; line-height: 1; }
+.prayer-time { color: var(--foreground); font-size: 12px; }
+.schedule-note { margin: 15px 0 0; color: var(--muted-foreground); font-size: 10px; }
+
+.community-section { border-top: 1px solid var(--border); padding-block: 81px 94px; }
+.community-grid { display: grid; grid-template-columns: 1fr 0.9fr; gap: clamp(38px, 8vw, 108px); }
+.community-block h2 { font-size: 39px; }
+.empty-update { margin-top: 32px; border-top: 1px solid var(--border); padding-top: 19px; }
+.empty-line { display: block; width: 28px; height: 1px; background: var(--accent); }
+.empty-update p { margin: 14px 0 6px; font-family: var(--font-serif); font-size: 21px; }
+.empty-detail { color: var(--muted-foreground); font-size: 11px; }
+.notice-mark { color: var(--accent); font-size: 13px; }
+.notice-item { margin-top: 32px; border-top: 1px solid var(--border); padding-top: 18px; }
+.notice-date { margin: 0 0 10px; color: var(--primary); font-size: 9px; letter-spacing: 0.13em; }
+.notice-item h3 { margin: 0; font-family: var(--font-serif); font-size: 23px; font-weight: 400; }
+.notice-item > p:not(.notice-date) { max-width: 375px; margin: 9px 0 14px; color: var(--muted-foreground); font-size: 11px; line-height: 1.8; }
+.notice-link { color: var(--accent); font-size: 10px; }
+
+.newsletter-section { position: relative; overflow: hidden; background: var(--secondary); }
+.newsletter-inner { position: relative; z-index: 1; display: grid; width: min(100% - 64px, 1060px); min-height: 243px; margin-inline: auto; grid-template-columns: 1fr minmax(300px, 0.85fr); align-items: center; gap: 42px; padding-block: 54px; }
+.newsletter-copy .eyebrow { margin-bottom: 13px; }
+.newsletter-copy h2 { font-size: 41px; }
+.newsletter-copy > p:last-child { margin: 9px 0 0; color: var(--muted-foreground); font-size: 11px; line-height: 1.8; }
+.newsletter-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 9px; }
+.newsletter-form input { height: 43px; border-color: var(--border); background: var(--background); font-size: 11px; }
+.newsletter-form button { height: 43px; gap: 8px; padding-inline: 14px; background: var(--primary); color: var(--primary-foreground); font-size: 10px; }
+.newsletter-form button:hover { background: color-mix(in oklab, var(--primary) 84%, var(--foreground)); }
+.newsletter-status { grid-column: 1 / -1; margin: 3px 0 0; color: var(--primary); font-size: 11px; }
+.newsletter-tile-detail { position: absolute; inset: 0 0 auto; height: 8px; opacity: 0.45; }
+.site-footer { display: flex; min-height: 91px; align-items: center; justify-content: space-between; gap: 20px; width: min(100% - 64px, 1060px); margin-inline: auto; }
+.footer-lockup img { width: 20px; height: 25px; object-fit: contain; }
+.footer-lockup span { font-size: 9px; }
+.site-footer > p { color: var(--muted-foreground); font-family: var(--font-serif); font-size: 16px; }
+.footer-year { color: var(--muted-foreground); font-size: 8px; letter-spacing: 0.12em; }
+
+@media (max-width: 700px) {
+  .site-header { height: 66px; padding-inline: 18px; }
+  .brand-lockup { gap: 9px; }
+  .brand-logo { width: 24px; height: 33px; }
+  .brand-name { font-size: 9px; }
+  .site-nav { gap: 15px; font-size: 10px; }
+  .site-nav a:first-child { display: none; }
+  .site-nav .nav-newsletter { gap: 4px; }
+  .mosque-hero { height: 70svh; min-height: 520px; max-height: 740px; align-items: end; }
+  .mosque-hero-image { object-position: 58% center; }
+  .mosque-hero-shade {
+    background:
+      linear-gradient(0deg, oklch(0.12 0.03 256 / 88%) 0%, oklch(0.12 0.03 256 / 37%) 55%, oklch(0.12 0.03 256 / 5%) 100%),
+      linear-gradient(90deg, oklch(0.12 0.03 256 / 30%), transparent 75%);
+  }
+  .mosque-hero-content { margin: 0 auto 76px; padding-inline: 24px; }
+  .mosque-hero h1 { margin-top: 21px; font-size: clamp(64px, 16vw, 90px); }
+  .mosque-hero-content > p { max-width: 280px; margin-block: 19px 25px; font-size: 12px; }
+  .hero-location { right: 20px; bottom: 23px; font-size: 8px; }
+  .hero-index { bottom: 24px; left: 22px; font-size: 8px; }
+  .tile-rule { height: 14px; }
+  .section-shell, .newsletter-inner, .site-footer { width: calc(100% - 40px); }
+  .prayer-section { padding-block: 64px 60px; }
+  .section-heading-row { align-items: flex-start; flex-direction: column; gap: 16px; margin-bottom: 25px; }
+  .section-shell h2, .newsletter-copy h2 { font-size: 39px; }
+  .section-intro { font-size: 11px; }
+  .prayer-row { grid-template-columns: minmax(108px, 1.02fr) 0.9fr 1fr; min-height: 55px; }
+  .prayer-row > :nth-child(2), .prayer-row > :nth-child(3) { padding-left: 7px; }
+  .prayer-table-heading { font-size: 8px; letter-spacing: 0.08em; }
+  .prayer-name { gap: 8px; font-size: 17px; }
+  .prayer-number { font-size: 8px; }
+  .prayer-time { font-size: 10px; }
+  .prayer-note { padding: 3px 4px; font-size: 8px; }
+  .community-section { padding-block: 61px 70px; }
+  .community-grid { grid-template-columns: 1fr; gap: 54px; }
+  .community-block h2 { font-size: 35px; }
+  .newsletter-inner { grid-template-columns: 1fr; gap: 27px; padding-block: 49px 42px; }
+  .newsletter-form { grid-template-columns: minmax(0, 1fr) auto; gap: 7px; }
+  .newsletter-form button { gap: 6px; padding-inline: 10px; font-size: 9px; }
+  .site-footer { min-height: 82px; flex-wrap: wrap; gap: 0 10px; }
+  .site-footer > p { margin: 0; font-size: 14px; }
+  .footer-year { width: 100%; margin-top: -17px; font-size: 7px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
