@@ -14,4 +14,14 @@ describe("App routing", () => {
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
+
+  it("lists all six requested prayer names and identifies Asr as Hanafi", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const homePage = await readFile(new URL("../routes/index.tsx", import.meta.url), "utf8");
+
+    for (const name of ["Fajr", "Sunrise", "Zuhr", "Asr", "Maghrib", "Isha"]) {
+      expect(homePage).toContain(`name: "${name}"`);
+    }
+    expect(homePage).toContain('note: "Hanafi"');
+  });
 });
